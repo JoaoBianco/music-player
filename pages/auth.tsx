@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+
+import { useRouter } from "next/router";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const Auth = () => {
+  const router = useRouter();
+
+  const [isMouseOnBtn, setIsMouseOnBtn] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -29,18 +36,18 @@ const Auth = () => {
         .min(6, "Mínimo 6 caracteres")
         .max(20, "Máximo 20 caracteres"),
       confirmarSenha: Yup.string()
+        .required("Senha obrigatária")
         .min(6, "Mínimo 6 caracteres")
         .max(20, "Máximo 20 caracteres")
         .oneOf([Yup.ref("senha")], "Senhas não conferem"),
     }),
 
     onSubmit: (values) => {
-      console.log(values);
+      router.push("/app");
     },
   });
 
   function whatIconButton(quantity: number) {
-    console.log("oi");
     if (quantity === 1) {
       return <SentimentNeutralIcon />;
     }
@@ -69,7 +76,7 @@ const Auth = () => {
             >
               {formik.errors.nome && formik.touched.nome
                 ? formik.errors.nome
-                : "Nome:"}
+                : "Nome"}
             </label>
             <input
               id="nome"
@@ -95,7 +102,7 @@ const Auth = () => {
             >
               {formik.errors.email && formik.touched.email
                 ? formik.errors.email
-                : "E-mail:"}
+                : "E-mail"}
             </label>
             <input
               id="email"
@@ -122,7 +129,7 @@ const Auth = () => {
             >
               {formik.errors.senha && formik.touched.senha
                 ? formik.errors.senha
-                : "Senha:"}
+                : "Senha"}
             </label>
             <input
               id="senha"
@@ -149,7 +156,7 @@ const Auth = () => {
             >
               {formik.errors.confirmarSenha && formik.touched.confirmarSenha
                 ? formik.errors.confirmarSenha
-                : "Confirmar senha:"}
+                : "Confirmar senha"}
             </label>
             <input
               id="confirmarSenha"
@@ -167,10 +174,19 @@ const Auth = () => {
           </div>
           <button
             type="submit"
-            className="bg-teal-500 hover:bg-teal-600 flex gap-2 justify-center text-white rounded-xl shadow-sm p-2 cursor-pointer transition font-semibold"
+            onMouseEnter={() => setIsMouseOnBtn(true)}
+            onMouseLeave={() => setIsMouseOnBtn(false)}
+            disabled={Object.keys(formik.errors).length > 0}
+            className="bg-teal-500 disabled:bg-teal-400 disabled:cursor-not-allowed  hover:bg-teal-600 flex gap-2 justify-center text-white rounded-xl shadow-sm p-2 cursor-pointer transition font-semibold"
           >
-            Criar conta
-            {whatIconButton(Object.keys(formik.errors).length)}
+            {isMouseOnBtn && Object.keys(formik.errors).length === 0
+              ? "Criar conta e entrar"
+              : "Criar conta"}
+            {isMouseOnBtn && Object.keys(formik.errors).length === 0 ? (
+              <MusicNoteIcon />
+            ) : (
+              whatIconButton(Object.keys(formik.errors).length)
+            )}
           </button>
         </form>
       </div>
