@@ -5,6 +5,9 @@ import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 
+import { useContext } from "react";
+import { MudarNomeUsuario, MudarEmailUsuario } from "./_app";
+
 import { useRouter } from "next/router";
 
 import { useFormik } from "formik";
@@ -12,6 +15,9 @@ import * as Yup from "yup";
 
 const Auth = () => {
   const router = useRouter();
+
+  const mudarNomeUsuario = useContext(MudarNomeUsuario);
+  const mudarEmailUsuario = useContext(MudarEmailUsuario);
 
   const [isMouseOnBtn, setIsMouseOnBtn] = useState(false);
 
@@ -43,6 +49,8 @@ const Auth = () => {
     }),
 
     onSubmit: (values) => {
+      mudarNomeUsuario(values.nome);
+      mudarEmailUsuario(values.email);
       router.push("/app");
     },
   });
