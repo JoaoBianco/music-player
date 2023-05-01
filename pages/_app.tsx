@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { createContext, useState } from "react";
+import { ThemeProvider } from "next-themes";
 
 export const NomeUsuario = createContext("");
 export const EmailUsuario = createContext("");
@@ -32,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <MudarNomeUsuario.Provider value={mudarNomeUsuario}>
             <MenuExpandido.Provider value={menuExpandido}>
               <MudarMenuExpandido.Provider value={mudarMenuExpandido}>
-                <Component {...pageProps} />
+                <ThemeProvider attribute="class" enableSystem={true}>
+                  <Component {...pageProps} />
+                </ThemeProvider>
               </MudarMenuExpandido.Provider>
             </MenuExpandido.Provider>
           </MudarNomeUsuario.Provider>

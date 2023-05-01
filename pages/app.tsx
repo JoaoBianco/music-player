@@ -1,15 +1,12 @@
 import React from "react";
-import { useContext } from "react";
-import { NomeUsuario, EmailUsuario } from "./_app";
 import NavBar from "@/components/NavBar";
+import MusicPlayer from "@/components/MusicPlayer";
 
 const App = () => {
-  const nomeUsuario = useContext(NomeUsuario);
-  const emailUsuario = useContext(EmailUsuario);
-
   return (
-    <div className="flex bg-red-200 h-screen">
+    <div className="flex h-screen  transition-all duration-300 dark:bg-gray-800">
       <NavBar />
+      <MusicPlayer />
     </div>
   );
 };
