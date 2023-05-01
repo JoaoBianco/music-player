@@ -9,11 +9,14 @@ export const MudarNomeUsuario = createContext((nome: string) => {});
 export const MudarEmailUsuario = createContext((email: string) => {});
 export const MenuExpandido = createContext(true);
 export const MudarMenuExpandido = createContext(() => {});
+export const MusicaId = createContext(0);
+export const MudarMusicaId = createContext((id: number) => {});
 
 export default function App({ Component, pageProps }: AppProps) {
   const [nomeUsuario, setNomeUsuario] = useState("");
   const [emailUsuario, setEmailUsuario] = useState("");
   const [menuExpandido, setMenuExpandido] = useState(true);
+  const [musicaId, setMusicaId] = useState(0);
 
   const mudarMenuExpandido = () => {
     setMenuExpandido((prev) => !prev);
@@ -25,6 +28,9 @@ export default function App({ Component, pageProps }: AppProps) {
   function mudarEmailUsuario(email: string) {
     setEmailUsuario(email);
   }
+  function mudarMusicaId(id: number) {
+    setMusicaId(id);
+  }
 
   return (
     <NomeUsuario.Provider value={nomeUsuario}>
@@ -34,7 +40,11 @@ export default function App({ Component, pageProps }: AppProps) {
             <MenuExpandido.Provider value={menuExpandido}>
               <MudarMenuExpandido.Provider value={mudarMenuExpandido}>
                 <ThemeProvider attribute="class" enableSystem={true}>
-                  <Component {...pageProps} />
+                  <MusicaId.Provider value={musicaId}>
+                    <MudarMusicaId.Provider value={mudarMusicaId}>
+                      <Component {...pageProps} />
+                    </MudarMusicaId.Provider>
+                  </MusicaId.Provider>
                 </ThemeProvider>
               </MudarMenuExpandido.Provider>
             </MenuExpandido.Provider>
