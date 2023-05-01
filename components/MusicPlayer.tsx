@@ -8,11 +8,19 @@ import { MudarMusicaId, MusicaId } from "@/pages/_app";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import Head from "next/head";
 
-const MusicPlayer = () => {
+type MusicPlayerProps = {
+  duracaoMusicaFormatada: string;
+  setDuracaoMusicaFormatada: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const MusicPlayer: React.FC<MusicPlayerProps> = ({
+  duracaoMusicaFormatada,
+  setDuracaoMusicaFormatada,
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duracaoMusica, setDuracaoMusica] = useState(0);
-  const [duracaoMusicaFormatada, setDuracaoMusicaFormatada] = useState("00:00");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [volume, setVolume] = useState(0.5);
 
@@ -38,6 +46,30 @@ const MusicPlayer = () => {
     setDuracaoMusica(parseFloat(e.target.value));
     segundosParaMinESegundos(parseFloat(e.target.value), true);
     audioRef.current!.currentTime = parseFloat(e.target.value);
+  }
+
+  function proximaMusica() {
+    if (musicaId === musics.length - 1) {
+      mudarMusicaId(0);
+    } else {
+      mudarMusicaId(musicaId + 1);
+    }
+    setTimeout(() => {
+      audioRef.current?.play();
+      setIsPlaying(true);
+    }, 200);
+  }
+
+  function musicaAnterior() {
+    if (musicaId === 0) {
+      mudarMusicaId(musics.length - 1);
+    } else {
+      mudarMusicaId(musicaId - 1);
+    }
+    setTimeout(() => {
+      audioRef.current?.play();
+      setIsPlaying(true);
+    }, 200);
   }
 
   function handleVolumeIcon() {
@@ -110,7 +142,12 @@ const MusicPlayer = () => {
 
   return (
     <div className="flex pl-4 pr-4 justify-center items-center w-full text-center">
-      <div className="flex flex-col gap-4 w-1/3">
+      <Head>
+        <title>
+          Tocando agora: {musics[musicaId].nome} - {duracaoMusicaFormatada}
+        </title>
+      </Head>
+      <div className="flex flex-col gap-4 w-full lg:w-1/3">
         <div className="flex gap-2 items-center justify-center">
           {handleVolumeIcon()}
           <input
@@ -144,11 +181,12 @@ const MusicPlayer = () => {
               value={duracaoMusica}
               onChange={(e) => mudarDuracaoMusica(e)}
             />
-            {segundosParaMinESegundos(audioRef.current?.duration, false)}
+            {segundosParaMinESegundos(audioRef.current?.duration, false) ||
+              "00:00"}
           </div>
           <div className="flex gap-8">
             <button className="hover:scale-110 transition-all">
-              <SkipPreviousIcon />
+              <SkipPreviousIcon onClick={() => musicaAnterior()} />
             </button>
             <button
               className="hover:scale-110 transition-all"
@@ -161,7 +199,7 @@ const MusicPlayer = () => {
               )}
             </button>
             <button className="hover:scale-110 transition-all">
-              <SkipNextIcon />
+              <SkipNextIcon onClick={() => proximaMusica()} />
             </button>
           </div>
         </div>

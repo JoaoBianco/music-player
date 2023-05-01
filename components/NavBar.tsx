@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useContext } from "react";
-import { NomeUsuario, MudarMenuExpandido, MenuExpandido } from "../pages/_app";
+import {
+  NomeUsuario,
+  MudarMenuExpandido,
+  MenuExpandido,
+  MusicaId,
+} from "../pages/_app";
 import { musics } from "@/data/musics";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -10,7 +15,11 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useTheme } from "next-themes";
 
-const NavBar = () => {
+type NavBarProps = {
+  duracaoMusicaFormatada: string;
+};
+
+const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -18,6 +27,7 @@ const NavBar = () => {
   const nomeUsuario = useContext(NomeUsuario);
   const mudarMenuExpandido = useContext(MudarMenuExpandido);
   const menuExpandido = useContext(MenuExpandido);
+  const musicaId = useContext(MusicaId);
 
   return (
     <nav
@@ -50,27 +60,29 @@ const NavBar = () => {
             alt="Usuario"
           />
           <p className="text-lg font-bold text-center">Olá {nomeUsuario}!</p>
-          <p className="text-center">Agora está tocando</p>
           <div
-            className={`flex gap-1  shadow-md border-2 rounded-lg p-4 items-center w-full ${
-              menuExpandido ? "flex-row" : "flex-col gap-4"
+            className={`flex gap-1 shadow-md border-2 rounded-lg p-4 items-center w-full ${
+              menuExpandido ? "flex-col lg:flex-row" : "flex-col gap-4"
             }`}
           >
             <img
               className="rounded-full w-12 h-12 shadow-md"
-              src={musics[0].image}
+              src={musics[musicaId].image}
               alt=""
             />
             <div
               className={`flex flex-col w-full overflow-auto scrollbar scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-h-1 scrollbar-thumb-teal-100 scrollbar-track-gray-600`}
             >
-              {menuExpandido && <p>{musics[0].nome}</p>}
+              {menuExpandido && <p>{musics[musicaId].nome}</p>}
+              {!menuExpandido && (
+                <p className="text-xs text-center">{musics[musicaId].nome}</p>
+              )}
               <span
                 className={`text-sm text-gray-100 opacity-70 sticky left-0 ${
                   menuExpandido ? "text-end" : "text-center"
                 }`}
               >
-                tempo
+                {duracaoMusicaFormatada}
               </span>
             </div>
           </div>
