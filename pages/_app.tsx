@@ -6,10 +6,17 @@ export const NomeUsuario = createContext("");
 export const EmailUsuario = createContext("");
 export const MudarNomeUsuario = createContext((nome: string) => {});
 export const MudarEmailUsuario = createContext((email: string) => {});
+export const MenuExpandido = createContext(true);
+export const MudarMenuExpandido = createContext(() => {});
 
 export default function App({ Component, pageProps }: AppProps) {
   const [nomeUsuario, setNomeUsuario] = useState("");
   const [emailUsuario, setEmailUsuario] = useState("");
+  const [menuExpandido, setMenuExpandido] = useState(true);
+
+  const mudarMenuExpandido = () => {
+    setMenuExpandido((prev) => !prev);
+  };
 
   function mudarNomeUsuario(nome: string) {
     setNomeUsuario(nome);
@@ -23,7 +30,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <EmailUsuario.Provider value={emailUsuario}>
         <MudarEmailUsuario.Provider value={mudarEmailUsuario}>
           <MudarNomeUsuario.Provider value={mudarNomeUsuario}>
-            <Component {...pageProps} />
+            <MenuExpandido.Provider value={menuExpandido}>
+              <MudarMenuExpandido.Provider value={mudarMenuExpandido}>
+                <Component {...pageProps} />
+              </MudarMenuExpandido.Provider>
+            </MenuExpandido.Provider>
           </MudarNomeUsuario.Provider>
         </MudarEmailUsuario.Provider>
       </EmailUsuario.Provider>
