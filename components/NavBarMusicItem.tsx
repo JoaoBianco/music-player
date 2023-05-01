@@ -52,7 +52,7 @@ const NavBarMusicItem: React.FC<NavBarMusicItemProps> = ({ music }) => {
     >
       <img className="w-10 h-10 rounded-full" src={music.image} />
       <div>
-        <p className="overflow-auto">{music.nome}</p>
+        <p className="overflow-x-auto">{music.nome}</p>
         <audio src={music.url} ref={audioRef}></audio>
         <span className="text-sm text-gray-100 opacity-70">
           {duracaoFormatada}

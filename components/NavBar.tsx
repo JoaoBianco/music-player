@@ -108,7 +108,7 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
         <AnimatePresence>
           {isExpanded && (
             <motion.div
-              className="flex flex-col gap-4 overflow-y-auto max-h-60 lg:max-h-[80vh] "
+              className="flex flex-col gap-4 overflow-y-auto h-full max-h-48 lg:max-h-[80vh] "
               exit={{ opacity: 0 }}
             >
               {musics.map((music, index) => (
@@ -120,7 +120,7 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
       </div>
       <div
         onClick={() => router.push("/auth")}
-        className="lg:mt-auto mt-3 w-full shadow-md border-2 rounded-lg text-center hover:bg-teal-600 transition"
+        className="mt-auto w-full shadow-md border-2 rounded-lg text-center hover:bg-teal-600 transition"
       >
         <p className="font-bold cursor-pointer  p-4">Sair </p>
       </div>
