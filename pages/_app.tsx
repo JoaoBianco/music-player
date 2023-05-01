@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <MudarNomeUsuario.Provider value={mudarNomeUsuario}>
             <MenuExpandido.Provider value={menuExpandido}>
               <MudarMenuExpandido.Provider value={mudarMenuExpandido}>
-                <ThemeProvider attribute="class" enableSystem={true}>
+                <ThemeProvider attribute="class" enableSystem={false}>
                   <MusicaId.Provider value={musicaId}>
                     <MudarMusicaId.Provider value={mudarMusicaId}>
                       <Component {...pageProps} />

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useTheme } from "next-themes";
+import NavBarMusicItem from "./NavBarMusicItem";
 
 type NavBarProps = {
   duracaoMusicaFormatada: string;
@@ -106,22 +107,20 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
         </p>
         <AnimatePresence>
           {isExpanded && (
-            <motion.div exit={{ opacity: 0 }}>
-              <motion.p
-                initial={{ x: "-100" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100" }}
-                transition={{ delay: 0.1 }}
-              >
-                a
-              </motion.p>
+            <motion.div
+              className="flex flex-col gap-4 overflow-y-auto max-h-60 lg:max-h-[80vh] "
+              exit={{ opacity: 0 }}
+            >
+              {musics.map((music, index) => (
+                <NavBarMusicItem key={index} music={music} />
+              ))}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
       <div
         onClick={() => router.push("/auth")}
-        className="mt-auto w-full shadow-md border-2 rounded-lg text-center hover:bg-teal-600 transition"
+        className="lg:mt-auto mt-3 w-full shadow-md border-2 rounded-lg text-center hover:bg-teal-600 transition"
       >
         <p className="font-bold cursor-pointer  p-4">Sair </p>
       </div>

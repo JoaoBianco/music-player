@@ -21,6 +21,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duracaoMusica, setDuracaoMusica] = useState(0);
+  const [duracaoTotal, setDuracaoTotal] = useState<string | undefined>("00:00");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [volume, setVolume] = useState(0.5);
 
@@ -132,6 +133,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   }
 
   useEffect(() => {
+    setTimeout(() => {
+      setDuracaoTotal(
+        segundosParaMinESegundos(audioRef.current?.duration, false)
+      );
+    }, 200);
+
     const intervalo = setInterval(() => {
       segundosParaMinESegundos(audioRef.current!.currentTime, true);
       setDuracaoMusica(audioRef.current!.currentTime);
@@ -139,6 +146,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
 
     return () => clearInterval(intervalo);
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      audioRef.current?.play();
+    }, 200);
+  }, [musicaId]);
 
   return (
     <div className="flex pl-4 pr-4 justify-center items-center w-full text-center">
@@ -165,7 +178,11 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
           src={musics[musicaId].image}
           alt=""
         />
-        <audio ref={audioRef} src={musics[musicaId].url}></audio>
+        <audio
+          onPlay={() => setIsPlaying(true)}
+          ref={audioRef}
+          src={musics[musicaId].url}
+        ></audio>
         <div className="flex flex-col gap-4 text-teal-400 font-semibold items-center">
           <p className="text-xl font-bold">{musics[musicaId].nome}</p>
           <div className="w-full max-w-[500px] flex gap-2">
@@ -181,8 +198,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
               value={duracaoMusica}
               onChange={(e) => mudarDuracaoMusica(e)}
             />
-            {segundosParaMinESegundos(audioRef.current?.duration, false) ||
-              "00:00"}
+            {duracaoTotal}
           </div>
           <div className="flex gap-8">
             <button className="hover:scale-110 transition-all">
