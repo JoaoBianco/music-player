@@ -72,7 +72,8 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
         <div className="flex flex-col gap-4 items-center">
           <img
             className="rounded-full w-[50%] h-[50%]"
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            // src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            src="/images/profile.png"
             alt="Usuario"
           />
           <p className="text-lg font-bold text-center">Olá {nomeUsuario}!</p>

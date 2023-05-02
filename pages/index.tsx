@@ -1,3 +1,9 @@
+import Auth from "./auth";
+
 export default function Home() {
-  return <main></main>;
+  return (
+    <main>
+      <Auth />
+    </main>
+  );
 }
