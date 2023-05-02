@@ -58,7 +58,7 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
   return (
     <nav
       className={`bg-teal-400 dark:bg-gray-800 transition-all ease-in-out duration-300 shadow-2xl flex flex-col items-center p-4 text-white max-w-[250px] w-${
-        menuExpandido ? "full" : "32 "
+        menuExpandido ? "full" : "32"
       }`}
     >
       <div>
@@ -72,8 +72,7 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
         <div className="flex flex-col gap-4 items-center">
           <img
             className="rounded-full w-[50%] h-[50%]"
-            // src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            src="/images/profile.png"
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="Usuario"
           />
           <p className="text-lg font-bold text-center">Olá {nomeUsuario}!</p>

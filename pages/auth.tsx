@@ -68,8 +68,6 @@ const Auth = () => {
     return <SentimentVerySatisfiedIcon />;
   }
 
-  console.log(formik.errors.nome && formik.touched.nome);
-
   return (
     <div className="w-screen h-screen dark:bg-zinc-700 flex flex-col items-center justify-center dark:text-white">
       <h2 className="text-2xl lg:text-5xl font-bold">Crie sua conta!</h2>

@@ -161,7 +161,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
           Tocando agora: {musics[musicaId].nome} - {duracaoMusicaFormatada}
         </title>
       </Head>
-      <div className="flex flex-col gap-4 w-full lg:w-1/3">
+      <div className="flex flex-col gap-4 w-full md:w-1/2 lg:w-1/3">
         <div className="flex gap-2 items-center justify-center">
           {handleVolumeIcon()}
           <input
