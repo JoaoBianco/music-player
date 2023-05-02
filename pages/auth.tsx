@@ -68,6 +68,8 @@ const Auth = () => {
     return <SentimentVerySatisfiedIcon />;
   }
 
+  console.log(formik.errors.nome && formik.touched.nome);
+
   return (
     <div className="w-screen h-screen dark:bg-zinc-700 flex flex-col items-center justify-center dark:text-white">
       <h2 className="text-2xl lg:text-5xl font-bold">Crie sua conta!</h2>
@@ -75,10 +77,10 @@ const Auth = () => {
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
           <div className="grid">
             <label
-              className={`text-sm ml-1 text-zinc-500 dark:text-white ${
+              className={`text-sm ml-1  ${
                 formik.errors.nome && formik.touched.nome
                   ? "text-red-500"
-                  : "text-zinc-500"
+                  : "text-zinc-500 dark:text-white"
               }`}
               htmlFor="nome"
             >
@@ -92,20 +94,20 @@ const Auth = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
-              className={`border-2 border-teal-500 rounded-xl p-2 focus:outline-none focus:ring-0 focus:border-teal-600 transition ${
+              className={`border-2  rounded-xl p-2 focus:outline-none focus:ring-0  transition ${
                 formik.errors.nome && formik.touched.nome
                   ? "border-red-400 focus:border-red-500"
-                  : ""
+                  : "focus:border-teal-600 border-teal-500"
               }`}
             />
           </div>
           <div className="grid">
             <label
               htmlFor="email"
-              className={`text-sm ml-1 text-zinc-500 dark:text-white ${
+              className={`text-sm ml-1  ${
                 formik.errors.email && formik.touched.email
                   ? "text-red-500"
-                  : "text-zinc-500"
+                  : "text-zinc-500 dark:text-white"
               }`}
             >
               {formik.errors.email && formik.touched.email
@@ -119,20 +121,20 @@ const Auth = () => {
               onBlur={formik.handleBlur}
               type="text"
               autoComplete="new-email"
-              className={`border-2 border-teal-500 rounded-xl p-2 focus:outline-none focus:ring-0 focus:border-teal-600 transition ${
+              className={`border-2 rounded-xl p-2 focus:outline-none focus:ring-0 transition ${
                 formik.errors.email && formik.touched.email
                   ? "border-red-400 focus:border-red-500"
-                  : ""
+                  : "border-teal-500  focus:border-teal-600"
               }`}
             />
           </div>
           <div className="grid">
             <label
               htmlFor="senha"
-              className={`text-sm ml-1 text-zinc-500 dark:text-white ${
+              className={`text-sm ml-1  ${
                 formik.errors.senha && formik.touched.senha
                   ? "text-red-500"
-                  : "text-zinc-500"
+                  : "text-zinc-500 dark:text-white"
               }`}
             >
               {formik.errors.senha && formik.touched.senha
@@ -146,20 +148,20 @@ const Auth = () => {
               onBlur={formik.handleBlur}
               type="password"
               autoComplete="new-password"
-              className={`border-2 border-teal-500 rounded-xl p-2 focus:outline-none focus:ring-0 focus:border-teal-600 transition ${
+              className={`border-2  rounded-xl p-2 focus:outline-none focus:ring-0 transition ${
                 formik.errors.senha && formik.touched.senha
                   ? "border-red-400 focus:border-red-500"
-                  : ""
+                  : "focus:border-teal-600 border-teal-500"
               }`}
             />
           </div>
           <div className="grid">
             <label
               htmlFor="confirmarSenha"
-              className={`text-sm ml-1 text-zinc-500 dark:text-white ${
+              className={`text-sm ml-1  ${
                 formik.errors.confirmarSenha && formik.touched.confirmarSenha
                   ? "text-red-500"
-                  : "text-zinc-500"
+                  : "text-zinc-500 dark:text-white"
               }`}
             >
               {formik.errors.confirmarSenha && formik.touched.confirmarSenha
@@ -173,10 +175,10 @@ const Auth = () => {
               onBlur={formik.handleBlur}
               type="password"
               autoComplete="new-password"
-              className={`border-2 border-teal-500 rounded-xl p-2 focus:outline-none focus:ring-0 focus:border-teal-600 transition ${
+              className={`border-2 rounded-xl p-2 focus:outline-none focus:ring-0  transition ${
                 formik.errors.confirmarSenha && formik.touched.confirmarSenha
                   ? "border-red-400 focus:border-red-500"
-                  : ""
+                  : "focus:border-teal-600 border-teal-500"
               }`}
             />
           </div>

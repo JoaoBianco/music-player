@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import {
   NomeUsuario,
@@ -24,11 +24,36 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const [iconDarkOrLight, setIconDarkOrLight] = useState<
+    JSX.Element | undefined
+  >(undefined);
 
   const nomeUsuario = useContext(NomeUsuario);
   const mudarMenuExpandido = useContext(MudarMenuExpandido);
   const menuExpandido = useContext(MenuExpandido);
   const musicaId = useContext(MusicaId);
+
+  function returnThemeIcon() {
+    if (theme === "dark") {
+      return (
+        <LightModeIcon
+          className=" cursor-pointer hover:text-teal-600 transition"
+          onClick={() => setTheme("light")}
+        />
+      );
+    } else {
+      return (
+        <DarkModeIcon
+          className=" cursor-pointer hover:text-teal-600 transition"
+          onClick={() => setTheme("dark")}
+        />
+      );
+    }
+  }
+
+  useEffect(() => {
+    setIconDarkOrLight(returnThemeIcon());
+  }, [theme]);
 
   return (
     <nav
@@ -42,17 +67,7 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
             className="cursor-pointer hover:text-teal-600 transition"
             onClick={mudarMenuExpandido}
           />
-          {theme === "dark" ? (
-            <LightModeIcon
-              className=" cursor-pointer hover:text-teal-600 transition"
-              onClick={() => setTheme("light")}
-            />
-          ) : (
-            <DarkModeIcon
-              className=" cursor-pointer hover:text-teal-600 transition"
-              onClick={() => setTheme("dark")}
-            />
-          )}
+          {iconDarkOrLight}
         </div>
         <div className="flex flex-col gap-4 items-center">
           <img

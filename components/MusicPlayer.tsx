@@ -148,9 +148,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      audioRef.current?.play();
-    }, 200);
+    if (isPlaying)
+      setTimeout(() => {
+        audioRef.current?.play();
+      }, 200);
   }, [musicaId]);
 
   return (
