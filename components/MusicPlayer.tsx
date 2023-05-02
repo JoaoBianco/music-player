@@ -137,7 +137,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
       setDuracaoTotal(
         segundosParaMinESegundos(audioRef.current?.duration, false)
       );
-    }, 200);
+    }, 1500);
 
     const intervalo = setInterval(() => {
       segundosParaMinESegundos(audioRef.current!.currentTime, true);
