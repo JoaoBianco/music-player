@@ -6,7 +6,7 @@ import {
   MenuExpandido,
   MusicaId,
 } from "../pages/_app";
-import { musics } from "@/data/musics";
+import useMusics from "@/hooks/useMusic";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,6 +27,8 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
   const [iconDarkOrLight, setIconDarkOrLight] = useState<
     JSX.Element | undefined
   >(undefined);
+
+  const { data: musics = [] } = useMusics();
 
   const nomeUsuario = useContext(NomeUsuario);
   const mudarMenuExpandido = useContext(MudarMenuExpandido);
@@ -57,9 +59,9 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
 
   return (
     <nav
-      className={`bg-teal-400 dark:bg-gray-800 transition-all ease-in-out duration-300 shadow-2xl flex flex-col items-center p-4 text-white max-w-[250px] w-${
-        menuExpandido ? "full" : "32"
-      }`}
+      className={`bg-teal-400 dark:bg-gray-800 transition-all ease-in-out duration-300 shadow-2xl flex flex-col items-center p-4 text-white ${
+        menuExpandido ? "w-full" : "w-32"
+      } max-w-[250px]`}
     >
       <div>
         <div className="flex justify-between w-auto mb-4">
@@ -83,15 +85,15 @@ const NavBar: React.FC<NavBarProps> = ({ duracaoMusicaFormatada }) => {
           >
             <img
               className="rounded-full w-12 h-12 shadow-md"
-              src={musics[musicaId].image}
+              src={musics[musicaId]?.image}
               alt=""
             />
             <div
               className={`flex flex-col w-full overflow-auto scrollbar scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-h-1 scrollbar-thumb-teal-100 scrollbar-track-gray-600`}
             >
-              {menuExpandido && <p>{musics[musicaId].nome}</p>}
+              {menuExpandido && <p>{musics[musicaId]?.nome}</p>}
               {!menuExpandido && (
-                <p className="text-xs text-center">{musics[musicaId].nome}</p>
+                <p className="text-xs text-center">{musics[musicaId]?.nome}</p>
               )}
               <span
                 className={`text-sm text-gray-100 opacity-70 sticky left-0 ${

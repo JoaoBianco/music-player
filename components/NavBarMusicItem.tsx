@@ -8,6 +8,7 @@ type NavBarMusicItemProps = {
     nome: string;
     url: string;
     image: string;
+    duration: number;
   };
 };
 
@@ -31,11 +32,8 @@ const NavBarMusicItem: React.FC<NavBarMusicItemProps> = ({ music }) => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      segundosParaMinESegundos(audioRef.current?.duration);
-    }, 1000);
-    console.clear();
-  }, []);
+    segundosParaMinESegundos(music?.duration);
+  }, [music?.duration]);
 
   return (
     <motion.div

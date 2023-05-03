@@ -3,7 +3,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { musics } from "@/data/musics";
+import useMusics from "@/hooks/useMusic";
 import { MudarMusicaId, MusicaId } from "@/pages/_app";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -19,13 +19,14 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   duracaoMusicaFormatada,
   setDuracaoMusicaFormatada,
 }) => {
+  const { data: musics = [] } = useMusics();
+  const musicaId = useContext(MusicaId);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duracaoMusica, setDuracaoMusica] = useState(0);
+  const [duracaoMusica, setDuracaoMusica] = useState<number | undefined>(0);
   const [duracaoTotal, setDuracaoTotal] = useState<string | undefined>("00:00");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [volume, setVolume] = useState(0.5);
 
-  const musicaId = useContext(MusicaId);
   const mudarMusicaId = useContext(MudarMusicaId);
 
   function tocarMusica() {
@@ -133,12 +134,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setDuracaoTotal(
-        segundosParaMinESegundos(audioRef.current?.duration, false)
-      );
-    }, 1500);
+    setDuracaoTotal(
+      segundosParaMinESegundos(musics[musicaId]?.duration, false)
+    );
+  }, [musics[musicaId]?.duration]);
 
+  useEffect(() => {
     const intervalo = setInterval(() => {
       segundosParaMinESegundos(audioRef.current!.currentTime, true);
       setDuracaoMusica(audioRef.current!.currentTime);
@@ -158,7 +159,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
     <div className="flex pl-4 pr-4 justify-center items-center w-full text-center">
       <Head>
         <title>
-          Tocando agora: {musics[musicaId].nome} - {duracaoMusicaFormatada}
+          Tocando agora: {musics[musicaId]?.nome} - {duracaoMusicaFormatada}
         </title>
       </Head>
       <div className="flex flex-col gap-4 w-full md:w-1/2 lg:w-1/3">
@@ -176,25 +177,26 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         </div>
         <img
           className="rounded-full w-42 h-42 border-4 border-teal-400 shadow-md"
-          src={musics[musicaId].image}
+          src={musics[musicaId]?.image}
           alt=""
         />
         <audio
           onPlay={() => setIsPlaying(true)}
           ref={audioRef}
-          src={musics[musicaId].url}
+          src={musics[musicaId]?.url}
         ></audio>
         <div className="flex flex-col gap-4 text-teal-400 font-semibold items-center">
-          <p className="text-xl font-bold">{musics[musicaId].nome}</p>
+          <p className="text-xl font-bold">{musics[musicaId]?.nome}</p>
           <div className="w-full max-w-[500px] flex gap-2">
             <span>
               <span>{duracaoMusicaFormatada}</span>
             </span>
+
             <input
               className=" accent-teal-500 w-full"
               type="range"
               min={0}
-              max={audioRef.current?.duration}
+              max={musics[musicaId]?.duration}
               step={0.01}
               value={duracaoMusica}
               onChange={(e) => mudarDuracaoMusica(e)}
