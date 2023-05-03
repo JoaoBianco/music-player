@@ -24,6 +24,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [duracaoMusica, setDuracaoMusica] = useState<number | undefined>(0);
   const [duracaoTotal, setDuracaoTotal] = useState<string | undefined>("00:00");
+  const [duracaoTotalSegundos, setDuracaoTotalSegundos] = useState<
+    number | undefined
+  >(musics[musicaId]?.duration);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [volume, setVolume] = useState(0.5);
 
@@ -134,19 +137,24 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   }
 
   useEffect(() => {
-    setDuracaoTotal(
-      segundosParaMinESegundos(musics[musicaId]?.duration, false)
-    );
-  }, [musics[musicaId]?.duration]);
+    setDuracaoTotal(segundosParaMinESegundos(duracaoTotalSegundos, false));
+  }, [duracaoTotalSegundos]);
 
   useEffect(() => {
-    const intervalo = setInterval(() => {
-      segundosParaMinESegundos(audioRef.current!.currentTime, true);
-      setDuracaoMusica(audioRef.current!.currentTime);
-    }, 200);
+    if (duracaoTotalSegundos) {
+      const intervalo = setInterval(() => {
+        segundosParaMinESegundos(audioRef.current!.currentTime, true);
+        setDuracaoMusica(audioRef.current!.currentTime);
+        if (
+          Math.floor(audioRef.current!.currentTime) === duracaoTotalSegundos
+        ) {
+          proximaMusica();
+        }
+      }, 200);
 
-    return () => clearInterval(intervalo);
-  }, []);
+      return () => clearInterval(intervalo);
+    }
+  }, [duracaoTotalSegundos]);
 
   useEffect(() => {
     if (isPlaying)
@@ -154,6 +162,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
         audioRef.current?.play();
       }, 200);
   }, [musicaId]);
+
+  useEffect(() => {
+    setDuracaoTotalSegundos(musics[musicaId]?.duration);
+  }, [musics[musicaId]?.duration]);
 
   return (
     <div className="flex pl-4 pr-4 justify-center items-center w-full text-center">
